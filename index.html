@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UTS Team Official - Tech Portal</title>
+    <title>UTS Team Official - OTP Methods</title>
     <style>
-        /* Modern Dark Theme Styling */
         body { 
             background-color: #0d1117; 
             color: #ffffff; 
@@ -22,39 +21,47 @@
             padding: 20px; 
             text-align: center; 
         }
-        header { margin-bottom: 40px; margin-top: 20px; }
-        h1 { color: #58a6ff; text-transform: uppercase; font-size: 2.2rem; margin: 0; }
-        .tagline { color: #8b949e; font-size: 1rem; }
+        header { 
+            margin-bottom: 30px; 
+            margin-top: 20px; 
+            border-bottom: 2px solid #30363d; 
+            padding-bottom: 20px; 
+        }
+        h1 { color: #58a6ff; text-transform: uppercase; font-size: 2rem; margin: 0; }
+        .tagline { color: #8b949e; font-size: 0.9rem; }
 
-        /* Method Card Styling */
+        /* Method Card */
         .method-card { 
             background: #161b22; 
             border-radius: 15px; 
             border: 1px solid #30363d; 
             padding: 15px; 
-            margin-bottom: 30px; 
+            margin-bottom: 25px; 
+            text-align: left; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-            text-align: left;
         }
         .method-info { 
             display: flex; 
             justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 12px; 
-            border-bottom: 1px solid #30363d;
-            padding-bottom: 10px;
+            margin-bottom: 10px; 
         }
-        .method-date { color: #8b949e; font-size: 0.85rem; font-weight: bold; }
-        .method-name { color: #bc8cff; font-weight: bold; font-size: 1.1rem; }
-        
-        /* Video Player Styling */
+        .method-date { color: #8b949e; font-size: 0.8rem; font-weight: bold; }
+        .method-name { 
+            color: #bc8cff; 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            display: block; 
+            margin-bottom: 10px; 
+        }
+
+        /* Video Box */
         .video-box { 
             position: relative; 
             padding-bottom: 56.25%; 
             height: 0; 
             overflow: hidden; 
             border-radius: 10px; 
-            background: #000;
+            background: #000; 
         }
         .video-box iframe { 
             position: absolute; 
@@ -65,30 +72,28 @@
             border: 0; 
         }
 
-        /* WhatsApp Floating Button */
+        /* Floating WhatsApp Button */
         .btn-wa { 
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
             background-color: #25d366; 
             color: white; 
             padding: 15px 25px; 
             text-decoration: none; 
             font-weight: bold; 
             border-radius: 50px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+            z-index: 100; 
+            border: 2px solid #ffffff; 
         }
-        .section-label {
-            color: #58a6ff;
-            text-align: left;
-            font-weight: bold;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            display: block;
+        .section-label { 
+            color: #58a6ff; 
+            text-align: left; 
+            font-weight: bold; 
+            margin: 20px 0; 
+            display: block; 
+            font-size: 1.2rem; 
         }
     </style>
 </head>
@@ -97,25 +102,23 @@
     <div class="container">
         <header>
             <h1>UTS Team Official</h1>
-            <p class="tagline">Daily Private Methods & Tutorials</p>
+            <p class="tagline">Daily Private OTP Methods & Tech Tutorials</p>
         </header>
 
-        <span class="section-label">🔥 LATEST UPLOADS</span>
+        <span class="section-label">🚀 LATEST METHODS</span>
 
         <div class="method-card">
             <div class="method-info">
                 <span class="method-date">April 14, 2026</span>
-                <span class="method-name">METHOD: TERMUX FACEBOOK BRUTEFORCE</span>
             </div>
+            <span class="method-name">METHOD 1: TERMUX OTP BYPASS (NEW)</span>
             <div class="video-box">
                 <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE" allowfullscreen></iframe>
             </div>
         </div>
         </div>
 
-    <a href="https://wa.me/923339588254" class="btn-wa">
-        <span>Chat on WhatsApp</span>
-    </a>
+    <a href="https://wa.me/923339588254" class="btn-wa">Chat on WhatsApp</a>
 
 </body>
 </html>
