@@ -57,6 +57,66 @@
             margin-top: 12px;
         }
 
+        /* Search Bar Styles */
+        .search-container {
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            background: #11161f;
+            border: 1px solid #2a2f3f;
+            border-radius: 50px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+        }
+
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: #5a5f6f;
+        }
+
+        .search-box .search-icon {
+            color: #00d4ff;
+            font-size: 1.2rem;
+        }
+
+        .search-box .clear-btn {
+            background: none;
+            border: none;
+            color: #5a5f6f;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0 5px;
+            display: none;
+        }
+
+        .search-box .clear-btn:hover {
+            color: #ff4444;
+        }
+
+        .search-info {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #8a8f9f;
+            text-align: center;
+        }
+
         .stats {
             display: flex;
             justify-content: space-around;
@@ -172,6 +232,18 @@
             margin-top: 10px;
         }
 
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            background: #11161f;
+            border-radius: 16px;
+            border: 1px dashed #ff4444;
+        }
+
+        .no-results p {
+            color: #ff8888;
+        }
+
         .whatsapp-float {
             position: fixed;
             bottom: 20px;
@@ -210,6 +282,12 @@
             margin-top: 40px;
         }
 
+        .highlight {
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 4px;
+            padding: 0 2px;
+        }
+
         @media (max-width: 640px) {
             .container {
                 padding: 16px 12px 80px 12px;
@@ -235,6 +313,10 @@
                 width: 28px;
                 height: 28px;
             }
+
+            .search-box {
+                padding: 10px 16px;
+            }
         }
 
         @media (min-width: 641px) and (max-width: 900px) {
@@ -252,49 +334,34 @@
             <div class="badge">🔐 Dynamic Content Portal</div>
         </div>
 
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search method by name... (e.g., WhatsApp, Facebook, OTP)">
+                <button class="clear-btn" id="clearSearch" onclick="clearSearch()">✖</button>
+            </div>
+            <div class="search-info" id="searchInfo"></div>
+        </div>
+
         <div class="stats">
             <div class="stat-item">
                 <div class="stat-number" id="methodCount">0</div>
                 <div class="stat-label">Total Methods</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number" id="activeCount">0</div>
-                <div class="stat-label">Available Now</div>
+                <div class="stat-number" id="visibleCount">0</div>
+                <div class="stat-label">Showing</div>
             </div>
         </div>
 
         <!-- START_METHODS_CONTAINER -->
         <div id="methodsContainer">
-            <!-- METHODS_INJECTION_POINT -->
-</div>
-                <div class="method-card" data-id="2970232b64bc">
-                    <div class="method-name">finally ho giya</div>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/knTixp0cUSA" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                        </iframe>
-                    </div>
-                    <a href="https://maiia.com" class="method-link" target="_blank">
-                        🔗 View Resource →
-                    </a>
-                </div>
-                <div class="method-card" data-id="461e727c9216">
-                    <div class="method-name">maiia</div>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/MPYw5_1-ro8" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                        </iframe>
-                    </div>
-                    <a href="https://maiia.com" class="method-link" target="_blank">
-                        🔗 View Resource →
-                    </a>
-                </div>
-
-                <!-- END_METHODS_CONTAINER -->
+            <div class="methods-grid" id="methodsGrid">
+                <!-- METHODS_INJECTION_POINT -->
+            </div>
+        </div>
+        <!-- END_METHODS_CONTAINER -->
     </div>
 
     <a href="https://wa.me/923339588254?text=Hello%20UTS%20Team%21%20I%20need%20help%20with%20methods" 
@@ -308,19 +375,108 @@
     </a>
 
     <div class="footer">
-        <p>&copy; 2024 UTS Team Official | Premium Methods Portal</p>
+        <p>&copy; 2024 UTS Team Official | Premium Methods Portal | Search & Filter Enabled</p>
     </div>
 
     <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearSearch');
+        const searchInfo = document.getElementById('searchInfo');
+        
+        function filterMethods() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.method-card');
+            let visibleCount = 0;
+            
+            cards.forEach(card => {
+                const methodName = card.querySelector('.method-name').textContent.toLowerCase();
+                if (searchTerm === '' || methodName.includes(searchTerm)) {
+                    card.style.display = '';
+                    visibleCount++;
+                    // Highlight matching text
+                    if (searchTerm !== '') {
+                        highlightText(card.querySelector('.method-name'), searchTerm);
+                    } else {
+                        removeHighlight(card.querySelector('.method-name'));
+                    }
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Update search info
+            const totalCards = cards.length;
+            if (searchTerm === '') {
+                searchInfo.textContent = `Showing all ${totalCards} methods`;
+                clearBtn.style.display = 'none';
+            } else {
+                searchInfo.textContent = `Found ${visibleCount} method${visibleCount !== 1 ? 's' : ''} matching "${searchTerm}"`;
+                clearBtn.style.display = 'block';
+            }
+            
+            // Update visible count stat
+            document.getElementById('visibleCount').textContent = visibleCount;
+            
+            // Show no results message
+            const methodsGrid = document.getElementById('methodsGrid');
+            const existingNoResult = document.querySelector('.no-results');
+            
+            if (visibleCount === 0 && searchTerm !== '') {
+                if (!existingNoResult) {
+                    const noResultDiv = document.createElement('div');
+                    noResultDiv.className = 'no-results';
+                    noResultDiv.innerHTML = `<p>😕 No methods found for "<strong>${escapeHtml(searchTerm)}</strong>"</p><p>Try a different search term!</p>`;
+                    methodsGrid.appendChild(noResultDiv);
+                } else {
+                    existingNoResult.innerHTML = `<p>😕 No methods found for "<strong>${escapeHtml(searchTerm)}</strong>"</p><p>Try a different search term!</p>`;
+                }
+            } else if (existingNoResult) {
+                existingNoResult.remove();
+            }
+        }
+        
+        function highlightText(element, term) {
+            if (!element) return;
+            const originalText = element.textContent;
+            if (!originalText.toLowerCase().includes(term)) return;
+            
+            const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            element.innerHTML = originalText.replace(regex, '<span class="highlight">$1</span>');
+        }
+        
+        function removeHighlight(element) {
+            if (!element) return;
+            element.innerHTML = element.textContent;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function clearSearch() {
+            searchInput.value = '';
+            filterMethods();
+            searchInput.focus();
+        }
+        
+        // Update stats
         function updateStats() {
             const cards = document.querySelectorAll('.method-card');
-            const count = cards.length;
-            document.getElementById('methodCount').textContent = count;
-            document.getElementById('activeCount').textContent = count;
+            const total = cards.length;
+            document.getElementById('methodCount').textContent = total;
+            filterMethods(); // This will update visible count too
         }
-
+        
+        // Event listeners
+        searchInput.addEventListener('input', filterMethods);
+        
+        // Initial load
         document.addEventListener('DOMContentLoaded', updateStats);
         
+        // Observe for dynamic content changes
         const observer = new MutationObserver(updateStats);
         const container = document.getElementById('methodsContainer');
         if (container) {
